@@ -1,0 +1,50 @@
+---
+title: '*knitr* kann auch Markdown'
+author: "Guido Schulz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+### Selbes Dokument wie vorher
+
+Nur mit vereinfachter _Markdown_ Syntax. z.B. schreibe ich **fettes** mit den doppelten Sternchen.
+
+```{r, include=FALSE}
+DATA <- read.csv("https://files.datapress.com/london/dataset/housing-sales/housing-sales-borough.csv",
+                 sep=",")
+JAHR <- ncol(DATA)+1995-3; JAHR
+colnames(DATA)[3:ncol(DATA)] <- 1995:JAHR; colnames(DATA)
+```
+
+```{r, include=FALSE}
+akt_salesLND <- DATA[DATA$Area=="London",paste(JAHR)]; akt_salesLND
+akt_salesENG <- DATA[DATA$Area=="England",paste(JAHR)]; akt_salesENG
+```
+
+### Softcoding von Zahlen:
+
+In London gab es im Jahre `r JAHR` insgesamt `r DATA[42,paste(JAHR)]` Hausverkäufe. Das entspricht `r (akt_salesLND/akt_salesENG)*100` % der gesamten Hausverkäufe in England.
+
+Hier die Entwicklung der Verkaufszahlen als Tabelle:
+
+```{r, include=FALSE}
+library("reshape2")
+moltenDATA <- melt(DATA)
+myDATA     <- moltenDATA[moltenDATA$Area %in% c("London"),][,2:4]; myDATA
+colnames(myDATA) <- c("Ort","Zeit","Hausverkäufe")
+```
+
+```{r results = 'asis', echo=FALSE}
+rownames(myDATA) <- c()
+library("knitr")
+kable(myDATA[,2:3], align='c',format = "markdown")
+```
+
+In einer Graphik erkennt man den Zeitverlauf viel besser:
+```{r, fig.width=15, fig.cap=paste("Zeitreihe der Hausverkäufe in London von 1995 bis",JAHR), fig.pos='h'}
+library("ggplot2")
+ggplot(data=myDATA,
+       aes(x=Zeit, y=Hausverkäufe)) +
+       geom_line(aes(group=Ort, 
+                     color=Ort))
+```

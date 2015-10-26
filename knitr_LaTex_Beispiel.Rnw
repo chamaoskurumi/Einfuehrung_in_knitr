@@ -1,0 +1,67 @@
+\documentclass{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\title{Mit \texttt{knitr} tolle Sachen machen}
+\author{Guido Schulz}
+\maketitle % Hier wird automatisch das aktuelle Datum eingefügt
+
+<<Setup,include=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.pos='H',
+               fig.height=4)
+options(digits=2)
+@
+
+Heute machen wir ein paar Beispiele um \texttt{knitr} zu lernen.
+Hier kommt der \textit{R-Code}, den ihr gar nicht im PDF mehr sehen werdet.\\
+
+<<DatenLaden, include=FALSE>>=
+DATA <- read.csv("https://files.datapress.com/london/dataset/housing-sales/housing-sales-borough.csv",
+                 sep=",")
+JAHR <- ncol(DATA)+1995-3; JAHR
+colnames(DATA)[3:ncol(DATA)] <- 1995:JAHR; colnames(DATA)
+@
+
+<<Aktuelle_Sales, include=FALSE>>=
+akt_salesLND <- DATA[DATA$Area=="London",paste(JAHR)]; akt_salesLND
+akt_salesENG <- DATA[DATA$Area=="England",paste(JAHR)]; akt_salesENG
+@
+
+Softcoding von Zahlen:\\
+
+In London gab es im Jahre \Sexpr{JAHR} insgesamt \Sexpr{DATA[42,paste(JAHR)]} Hausverkäufe. Das entspricht \Sexpr{(akt_salesLND/akt_salesENG)*100} \% der gesamten Hausverkäufe in England.\\
+
+Hier die Entwicklung der Verkaufszahlen als Tabelle:
+
+<<Daten_transformieren, include=FALSE>>=
+library("reshape2")
+moltenDATA <- melt(DATA)
+myDATA     <- moltenDATA[moltenDATA$Area %in% c("London"),][,2:4]; myDATA
+colnames(myDATA) <- c("Ort","Zeit","Hausverkäufe")
+@
+
+% <<Tabelle_haesslich>>=
+% myDATA[,2:3]
+% @
+
+<<Tabelle, results = 'asis', echo=FALSE, message=FALSE>>=
+rownames(myDATA) <- c()
+library("stargazer")
+stargazer(myDATA[,2:3], summary=FALSE,
+          title="Preisentwicklung in London")
+@
+
+In einer Graphik erkennt man den Zeitverlauf viel besser:
+<<Plotversuch,fig.width=15, fig.cap=paste("Zeitreihe der Hausverkäufe in London von 1995 bis",JAHR), fig.pos='h'>>=
+library("ggplot2")
+ggplot(data=myDATA,
+       aes(x=Zeit, y=Hausverkäufe)) +
+       geom_line(aes(group=Ort, 
+                     color=Ort))
+@
+
+\end{document}

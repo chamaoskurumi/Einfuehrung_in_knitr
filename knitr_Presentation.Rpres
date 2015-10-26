@@ -1,0 +1,103 @@
+Dynamic Reporting mit "knitr" & RStudio
+========================================================
+author: Guido Schulz
+date: 28.10.2015
+
+
+Probleme der "Common Practice"
+========================================================
+- **Fehleranfälligkeit** bei "Handarbeit"
+- **Hoher Aufwand** (z.B. Tabelle in LaTex manuell auffüllen)
+- **Workflow kaum nachvollziehbar** (v.A. GUI Software) --> schwer reproduzierbar
+- Kleinste Änderungen der Datenquelle erfordern **Wiederholung von Arbeit**
+- Von einander **getrennete Analyse- & Schreibprozesse** müssen synchronisiert werden
+
+Lösung: Dynamic Reporting
+=======================================================
+- Dynamic Document (= Source): 
+
+Computer Code + Narrative 
+
+- Dynamic Document ===<span style="color:red">knitr</span>===> Report
+
+![](Bilder/knitr-logo.png)
+
+Dynamic Reporting mit "knitr"
+=======================================================
+
+**Beispiele:**
+- *R + LaTex ===<span style="color:red">knitr</span>===> .pdf*
+- *R + Markdown ===<span style="color:red">knitr</span>===> .hmtl*
+- *Python + Markdown ===<span style="color:red">knitr</span>===> .docx*
+- *.etc*
+
+"knitr" Minimalbeispiel
+========================================================
+
+![](Bilder/Minimalbeispiel_knitr.png)
+
+Reproducible Research (RR)
+========================================================
+
+**RR:**
+
+*Research results are replicable if there is sufficient information available for independent researchers to make the same findings using the same procedures* (King, 1995).
+
+**Really RR:**
+
+*The data and code used to make a finding are available and they are sufficient for an independent researcher to recreate the finding* (Peng, 2011).
+
+
+Vorteile des RR
+========================================================
+
+**Allgemein:**
+- Standard wissenschaftlicher Behauptungen
+- Verhinderung von "Doppelter Arbeit"
+- Förderung kumulativer Wissensproduktion
+
+**Individuell:**
+- Bessere Arbeitsgewohnheiten
+- Vereinfacht Teamwork
+- Vereinfacht das Vornehmen von Änderungen
+- Höherer Research Impact
+
+RR & Dynamic Reporting
+========================================================
+RR *kann* ein Nebenprodukt von Dynamic Reporting sein, *muss* aber nicht! 
+  - **Good Practice:**
+    + Relative Pfadangaben
+    + Automatisierung aller Arbeitsschritte, etc.
+  - **Probleme beim RR:**
+    + Daten zu groß
+    + Datenschutz
+    + Software Version & Konfiguration, etc.
+
+
+Nachteile
+========================================================
+- **Debugging** kompliziert
+- Manchmal **Konflikte zwischen LaTex Paketen & knitr** (z.B. Bibliographie)
+- Manchmal **Layoutprobleme** (z.B. Schriftgröße in Plots)
+- Bisher **keine umfassenden knitr Lösungen** (z.B. fehlende Unterstützung zur Darstellung spezieller Regressionsmodelle)
+
+
+Hilfreiche Literatur rund um "knitr"
+========================================================
+
+**Einführende Tutorials:**
+  * [knitr in a knutshell](http://kbroman.org/knitr_knutshell/pages/overview.html) (Karl Broman)
+  * [Einführung in knitr](http://www.dante.de/events/dante2014/Programm/Vortraege/mertens.pdf) (Ulf Mertens)
+  
+**Ausführliches Begleitbuch & Dokumentation:**
+  * [Dynamic Documents with R and knitr (2nd Ed.)](https://www.crcpress.com/Dynamic-Documents-with-R-and-knitr-Second-Edition/Xie/9781498716963) (Yihui Xie)
+  * [knitr Website](http://yihui.name/knitr/) (Yihui Xie)
+  
+Alle Beispieldokumente
+=======================================================
+
+Den Sourcecode dieser Präsentation & aller besprochenen Beispiele findet ihr auf:
+
+[github.com/chamaoskurumi/Einfuehrung_in_knitr](https://github.com/chamaoskurumi/Einfuehrung_in_knitr)
+
+
