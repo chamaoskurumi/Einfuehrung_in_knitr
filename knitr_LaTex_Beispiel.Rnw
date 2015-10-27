@@ -40,28 +40,29 @@ Hier die Entwicklung der Verkaufszahlen als Tabelle:
 <<Daten_transformieren, include=FALSE>>=
 library("reshape2")
 moltenDATA <- melt(DATA)
-myDATA     <- moltenDATA[moltenDATA$Area %in% c("London"),][,2:4]; myDATA
-colnames(myDATA) <- c("Ort","Zeit","Hausverkäufe")
+myDATA     <- moltenDATA[moltenDATA$Area %in% c("London"),][,3:4]; myDATA
+colnames(myDATA) <- c("Zeit","Hausverkäufe")
 @
 
 % <<Tabelle_haesslich>>=
-% myDATA[,2:3]
+% myDATA
 % @
 
 <<Tabelle, results = 'asis', echo=FALSE, message=FALSE>>=
 rownames(myDATA) <- c()
 library("stargazer")
-stargazer(myDATA[,2:3], summary=FALSE,
+stargazer(myDATA, summary=FALSE,
           title="Preisentwicklung in London")
 @
 
 In einer Graphik erkennt man den Zeitverlauf viel besser:
 <<Plotversuch,fig.width=15, fig.cap=paste("Zeitreihe der Hausverkäufe in London von 1995 bis",JAHR), fig.pos='h'>>=
 library("ggplot2")
-ggplot(data=myDATA,
-       aes(x=Zeit, y=Hausverkäufe)) +
-       geom_line(aes(group=Ort, 
-                     color=Ort))
+qplot(data = myDATA, 
+      x=Zeit, 
+      y=Hausverkäufe,
+      geom ="line", 
+      group=1)
 @
 
 \end{document}
